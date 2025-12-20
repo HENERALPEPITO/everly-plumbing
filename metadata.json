@@ -1,0 +1,7 @@
+{
+  "name": "Everly Plumbing Premium",
+  "description": "A high-end plumbing service website featuring elite clarity, motion-driven reveals, and precision-engineered conversion paths.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
