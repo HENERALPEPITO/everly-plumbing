@@ -9,40 +9,44 @@ interface HeroProps {
 
 const Hero: React.FC<HeroProps> = ({ onScheduleClick }) => {
   return (
-    <section className="relative h-screen w-full flex flex-col items-center justify-center text-center overflow-hidden bg-neutral-900">
-      {/* Parallax Background - Premium Mechanical/Plumbing Visual */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105"
-        style={{ 
+    <section className="relative h-screen w-full flex items-center justify-center text-center overflow-hidden bg-neutral-900">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center transform-gpu scale-105"
+        style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1517646287270-a5a9ca602e5c?auto=format&fit=crop&q=80&w=1920')`,
-          filter: 'brightness(0.35)'
         }}
       />
 
+      {/* Dark gradient overlay to ensure contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/40 to-black/60" />
+
       <div className="relative z-10 max-w-4xl px-6">
         <MotionWrapper delay={200}>
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white mb-6">
-            San Antonio's Premium <br/><span className="text-blue-400">Plumbing Standard.</span>
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-tight mb-4">
+            San Antonio's Premium
+            <br />
+            <span className="text-blue-400">Plumbing Standard.</span>
           </h1>
         </MotionWrapper>
-        
+
         <MotionWrapper delay={400}>
-          <p className="text-xl md:text-2xl text-neutral-300 font-light mb-12 max-w-2xl mx-auto">
-            Experience elite engineering precision and Apple-level clarity in every fixture, pipe, and service.
+          <p className="text-base md:text-lg text-white/90 font-normal mb-8 max-w-2xl mx-auto">
+            Honest work. Fair prices. Every time.
           </p>
         </MotionWrapper>
 
         <MotionWrapper delay={600} direction="none">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
+            <button
               onClick={onScheduleClick}
-              className="px-10 py-4 bg-white text-black font-semibold rounded-full transition-all hover:bg-neutral-200 active:scale-95 shadow-xl"
+              className="px-10 py-4 bg-black text-white text-lg font-semibold rounded-full transition-all hover:opacity-95 active:scale-95 shadow-lg"
             >
               Schedule Service
             </button>
-            <a 
-              href={`tel:${PHONE_NUMBER.replace(/\D/g,'')}`}
-              className="px-10 py-4 bg-white/10 text-white font-semibold rounded-full backdrop-blur-md border border-white/20 transition-all hover:bg-white/20 active:scale-95"
+            <a
+              href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
+              className="px-10 py-4 bg-white/10 text-white text-lg font-semibold rounded-full border border-white/20 transition-all hover:bg-white/20 active:scale-95"
             >
               Call {PHONE_NUMBER}
             </a>

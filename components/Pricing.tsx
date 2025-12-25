@@ -1,8 +1,9 @@
-
 import React from 'react';
 import { MotionWrapper } from './MotionWrapper';
 import { PRICING_LIST } from '../constants';
 import { FormState } from '../types';
+import ContactForm from './ContactForm';
+
 
 interface PricingProps {
   onScheduleClick: (context: FormState) => void;

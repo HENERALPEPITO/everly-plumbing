@@ -1,182 +1,285 @@
 
 import React, { useState, useEffect } from 'react';
-import { PHONE_NUMBER } from '../constants';
+import { Link } from 'react-router-dom';
+import { PHONE_NUMBER, PRICING_LIST, SERVICE_DETAILS } from '../constants';
 import { Menu, X, Phone } from 'lucide-react';
+import ContactForm from './ContactForm';
+import NewHomeConstructionMegaMenu from './NewHomeConstructionMegaMenu';
 
 interface NavbarProps {
-  onScheduleClick: () => void;
+  onScheduleClick?: () => void;
+  showContactModal?: boolean;
+  setShowContactModal?: (show: boolean) => void;
+  formContext?: any;
+  setFormContext?: (context: any) => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onScheduleClick }) => {
+const NAV_ITEMS = [
+  { label: 'HOME', href: '/' },
+  { label: 'RESIDENTIAL', href: '/residential' },
+  { label: 'NEW HOME CONSTRUCTION', href: '/new-home-construction' },
+  { label: 'FLEXIBLE FINANCING', href: '/flexible-financing' },
+  { label: 'CONTACT US', href: '/contact-us' },
+];
+
+const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = false, setShowContactModal, setFormContext }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<null | 'residential' | 'construction'>(null);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const closeTimeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setIsScrolled(window.scrollY > 10);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navItems = [
-    { label: 'Services', href: '#services-overview' },
-    { label: 'Pricing', href: '#pricing' },
-    { label: 'Financing', href: '#financing' },
-    { label: 'Builders', href: '#builders' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
-  ];
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') { setHoveredItem(null); setMobileOpen(false); } };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
-  const handleNavClick = (href: string) => {
-    setIsOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+  useEffect(() => {
+    return () => {
+      if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    };
+  }, []);
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+  const handleNavItemHoverEnter = (item: 'residential' | 'construction') => {
+    if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+    setHoveredItem(item);
+  };
+
+  const handleNavItemHoverLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setHoveredItem(null);
+    }, 150);
   };
 
   return (
     <>
-      <nav 
-        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 px-6 md:px-10 
-          ${isScrolled 
-            ? 'py-3 bg-white/80 backdrop-blur-xl border-b border-neutral-100 shadow-sm' 
-            : 'py-6 bg-transparent text-white'
-          }
-        `}
-      >
-        <div className="max-w-[1600px] mx-auto flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex-1">
-            <a 
-              href="#home" 
-              onClick={(e) => { e.preventDefault(); handleNavClick('#home'); }}
-              className={`text-xl font-bold tracking-tighter transition-colors duration-300 ${isScrolled ? 'text-black' : 'text-white'}`}
-            >
-              EVERLY PLUMBING<span className="text-blue-500">.</span>
-            </a>
+      <header className={`fixed top-0 left-0 w-full z-50 bg-white border-b border-neutral-100 ${isScrolled ? 'shadow-sm' : ''}`}>
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 h-16 flex items-center">
+          <div className="flex-none">
+            <Link to="/" className="inline-flex items-center" aria-label="Everly Plumbing home">
+              <img src="/everlyplumbing_logo.png" alt="Everly Plumbing" className="h-20 md:h-50 object-contain" />
+            </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center justify-center gap-10 flex-[2]">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                className={`relative group text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300
-                  ${isScrolled ? 'text-neutral-600 hover:text-black' : 'text-white/80 hover:text-white'}
-                `}
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-blue-500 transition-all duration-300 group-hover:w-full" />
-              </a>
-            ))}
-          </div>
+          <nav className="hidden lg:flex flex-1 justify-center">
+            <ul className="flex items-center gap-10">
+              {NAV_ITEMS.map((item) => {
+                // For RESIDENTIAL and NEW HOME, use hover to show modal
+                if (item.label === 'RESIDENTIAL') {
+                  return (
+                    <li 
+                      key={item.label}
+                      onMouseEnter={() => handleNavItemHoverEnter('residential')}
+                      onMouseLeave={handleNavItemHoverLeave}
+                    >
+                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                        {item.label}
+                        <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
+                      </Link>
+                    </li>
+                  );
+                }
 
-          {/* Action Area */}
-          <div className="flex-1 flex items-center justify-end gap-6 md:gap-8">
-            <a 
-              href={`tel:${PHONE_NUMBER.replace(/\D/g,'')}`}
-              className={`hidden xl:flex items-center gap-2 text-sm font-medium tracking-tight transition-opacity hover:opacity-70
-                ${isScrolled ? 'text-neutral-500' : 'text-white/70'}
-              `}
-            >
-              <Phone className="w-3.5 h-3.5" />
+                if (item.label === 'NEW HOME CONSTRUCTION') {
+                  return (
+                    <li 
+                      key={item.label}
+                      onMouseEnter={() => handleNavItemHoverEnter('construction')}
+                      onMouseLeave={handleNavItemHoverLeave}
+                    >
+                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                        {item.label}
+                        <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
+                      </Link>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={item.label}>
+                    <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                      {item.label}
+                      <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          <div className="flex items-center gap-4 ml-auto">
+            <a href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`} className="hidden xl:inline-flex items-center gap-2 text-sm text-neutral-700">
+              <Phone className="w-4 h-4" />
               {PHONE_NUMBER}
             </a>
 
-            <button 
-              onClick={onScheduleClick}
-              className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all duration-300 active:scale-95 shadow-lg
-                ${isScrolled 
-                  ? 'bg-black text-white hover:bg-neutral-800 shadow-neutral-200' 
-                  : 'bg-white text-black hover:bg-neutral-100 shadow-black/20'
-                }
-              `}
-            >
+            <button onClick={() => setShowContactModal?.(true)} className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-black text-white hover:opacity-95">
               Schedule Service
             </button>
 
-            {/* Mobile Toggle */}
-            <button 
-              onClick={() => setIsOpen(true)}
-              className={`lg:hidden p-1 transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}
-              aria-label="Open Menu"
-            >
+            <button onClick={() => setMobileOpen(true)} className="lg:hidden p-2 text-neutral-800" aria-label="Open menu">
               <Menu className="w-6 h-6" />
             </button>
           </div>
         </div>
-      </nav>
+      </header>
 
-      {/* Mobile Fullscreen Menu Overlay */}
-      <div 
-        className={`fixed inset-0 z-[110] bg-white transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-          ${isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'}
-        `}
-      >
-        <div className="flex flex-col h-full p-8">
-          <div className="flex justify-between items-center mb-16">
-            <span className="text-xl font-bold tracking-tighter text-black">
-              EVERLY PLUMBING<span className="text-blue-500">.</span>
-            </span>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="p-2 text-black hover:bg-neutral-100 rounded-full transition-colors"
-            >
-              <X className="w-7 h-7" />
-            </button>
+      {/* Mobile menu overlay */}
+      <div className={`fixed inset-0 z-40 bg-white transition-transform ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex flex-col h-full p-6">
+          <div className="flex items-center justify-between">
+            <Link to="/" onClick={() => setMobileOpen(false)} className="inline-flex items-center">
+              <img src="/everlyplumbing_logo.png" alt="Everly Plumbing" className="h-10" />
+            </Link>
+            <button onClick={() => setMobileOpen(false)} className="p-2 text-neutral-800" aria-label="Close menu"><X className="w-6 h-6" /></button>
           </div>
 
-          <div className="flex flex-col gap-6">
-            {navItems.map((item, idx) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                style={{ 
-                  transitionDelay: `${idx * 50 + 100}ms`,
-                  transform: isOpen ? 'translateY(0)' : 'translateY(20px)',
-                  opacity: isOpen ? 1 : 0
-                }}
-                className="text-4xl font-bold tracking-tight text-neutral-900 transition-all duration-500 hover:text-blue-600"
-              >
-                {item.label}
-              </a>
-            ))}
-          </div>
+          <nav className="mt-10 flex-1">
+            <ul className="flex flex-col gap-6">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.label}>
+                  {item.label === 'RESIDENTIAL' ? (
+                    <button onClick={() => { setMobileOpen(false); setHoveredItem('residential'); }} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</button>
+                  ) : item.label === 'NEW HOME CONSTRUCTION' ? (
+                    <button onClick={() => { setMobileOpen(false); setHoveredItem('construction'); }} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</button>
+                  ) : item.label === 'CONTACT US' ? (
+                    <button onClick={() => { setMobileOpen(false); setShowContactModal?.(true); }} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</button>
+                  ) : (
+                    <Link to={item.href} onClick={() => setMobileOpen(false)} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          <div className="mt-auto border-t border-neutral-100 pt-10">
-            <p className="text-[10px] font-bold text-neutral-400 uppercase tracking-[0.2em] mb-4">Direct Support</p>
-            <a 
-              href={`tel:${PHONE_NUMBER.replace(/\D/g,'')}`}
-              className="text-2xl font-bold text-black mb-10 block"
-            >
-              {PHONE_NUMBER}
-            </a>
-            
-            <button
-              onClick={() => { setIsOpen(false); onScheduleClick(); }}
-              className="w-full py-5 bg-black text-white rounded-2xl font-bold text-lg transition-transform active:scale-[0.98] shadow-2xl shadow-neutral-300"
-            >
-              Schedule Service
-            </button>
+          <div className="mt-auto">
+            <a href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`} className="block text-lg font-semibold text-neutral-900 mb-6">{PHONE_NUMBER}</a>
+            <button onClick={() => { setMobileOpen(false); setShowContactModal?.(true); }} className="w-full block text-center py-4 bg-black text-white rounded-full font-bold">Schedule Service</button>
           </div>
         </div>
       </div>
+
+      {/* Mega Modal (residential / construction) - Desktop Hover */}
+      {hoveredItem && (
+        <div 
+          className="hidden lg:block fixed top-16 left-0 right-0 z-40"
+          onMouseEnter={() => {
+            if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
+            setHoveredItem(hoveredItem);
+          }}
+          onMouseLeave={() => {
+            closeTimeoutRef.current = setTimeout(() => {
+              setHoveredItem(null);
+            }, 150);
+          }}
+        >
+          <div className="mx-6 md:mx-10 bg-white rounded-lg shadow-lg overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+            {hoveredItem === 'residential' ? (
+              <div className="p-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {PRICING_LIST.map((p) => {
+                    const sd = SERVICE_DETAILS[p.id];
+                    const img = sd?.imageUrl ?? p.imageUrl ?? 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800';
+                    return (
+                      <div key={p.id} className="border rounded-lg overflow-hidden bg-white hover:shadow-md transition-shadow">
+                        <div className="h-40 w-full overflow-hidden bg-neutral-100">
+                          <img src={img} alt={p.title} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="p-4">
+                          <div className="flex items-baseline justify-between">
+                            <h4 className="text-sm font-bold">{p.title}</h4>
+                            <span className="text-sm font-semibold">{p.price}</span>
+                          </div>
+                          <p className="mt-2 text-xs text-neutral-600">{p.description}</p>
+                          <div className="mt-4 text-right">
+                            <button onClick={() => { setFormContext?.({ type: 'service', serviceName: p.title, price: p.price }); setHoveredItem(null); setShowContactModal?.(true); }} className="inline-flex items-center px-3 py-1.5 bg-black text-white text-xs font-bold rounded-full hover:opacity-95">SCHEDULE</button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ) : (
+              <NewHomeConstructionMegaMenu onClose={() => setHoveredItem(null)} />
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Mega Modal - Click Based */}
+      {hoveredItem && mobileOpen && (
+        <div className="lg:hidden fixed inset-0 z-40 flex items-start md:items-center justify-center p-6 pt-20">
+          <div className="absolute inset-0 bg-black/60" onClick={() => setHoveredItem(null)} />
+
+          <div className="relative z-10 w-full max-w-[1100px] bg-white rounded-lg shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4 border-b">
+              <h3 className="text-lg font-bold uppercase">{hoveredItem === 'residential' ? 'Residential Services' : 'New Home Construction'}</h3>
+              <button onClick={() => setHoveredItem(null)} className="p-2 text-neutral-700" aria-label="Close modal"><X className="w-5 h-5" /></button>
+            </div>
+
+            <div className="p-6">
+              {hoveredItem === 'residential' ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {PRICING_LIST.map((p) => {
+                    const sd = SERVICE_DETAILS[p.id];
+                    const img = sd?.imageUrl ?? p.imageUrl ?? 'https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800';
+                    return (
+                      <div key={p.id} className="border rounded-lg overflow-hidden bg-white">
+                        <div className="h-40 w-full overflow-hidden bg-neutral-100">
+                          <img src={img} alt={p.title} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="p-4">
+                          <div className="flex items-baseline justify-between">
+                            <h4 className="text-sm font-bold">{p.title}</h4>
+                            <span className="text-sm font-semibold">{p.price}</span>
+                          </div>
+                          <p className="mt-2 text-xs text-neutral-600">{p.description}</p>
+                          <div className="mt-4 text-right">
+                            <button onClick={() => { setFormContext?.({ type: 'service', serviceName: p.title, price: p.price }); setHoveredItem(null); setMobileOpen(false); setShowContactModal?.(true); }} className="inline-flex items-center px-3 py-1.5 bg-black text-white text-xs font-bold rounded-full">SCHEDULE</button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-4">
+                  {Object.values(SERVICE_DETAILS).map((s) => (
+                    <div key={s.title} className="flex gap-4 items-start">
+                      <img src={s.imageUrl} alt={s.title} className="w-24 h-16 object-cover rounded" />
+                      <div>
+                        <h4 className="font-bold text-sm">{s.title}</h4>
+                        <p className="text-xs text-neutral-600">{s.description}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Contact Form Modal */}
+      {showContactModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
+          <div className="relative bg-white rounded-lg shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <button onClick={() => setShowContactModal?.(false)} className="absolute top-4 right-4 p-2 text-neutral-700 hover:bg-neutral-100 rounded-full" aria-label="Close modal"><X className="w-6 h-6" /></button>
+            <div className="p-8">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
+    
 
 export default Navbar;

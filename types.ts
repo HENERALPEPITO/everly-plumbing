@@ -1,8 +1,20 @@
+export enum ServiceId {
+  DRAIN_CLEANING = 'DRAIN_CLEANING',
+  TOILET_REPLACEMENT = 'TOILET_REPLACEMENT',
+  WATER_HEATER_FLUSH = 'WATER_HEATER_FLUSH',
+  TANKLESS_DESCALING = 'TANKLESS_DESCALING',
+  WATER_HEATER_REPLACEMENT = 'WATER_HEATER_REPLACEMENT',
+  TANKLESS_WATER_HEATER_REPLACEMENT = 'TANKLESS_WATER_HEATER_REPLACEMENT',
+  CAMERA_INSPECTION = 'CAMERA_INSPECTION',
+  PRV_REPLACEMENT = 'PRV_REPLACEMENT'
+}
 
 export interface PricingCard {
+  id: ServiceId;
   title: string;
-  price: string;
+  price?: string;
   description: string;
+  imageUrl?: string;
 }
 
 export interface ServiceDetail extends ServiceStage {

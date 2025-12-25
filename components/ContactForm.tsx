@@ -1,9 +1,11 @@
-
 import React, { useEffect } from 'react';
-import { MotionWrapper } from './MotionWrapper';
-import { PHONE_NUMBER, SOCIAL_LINKS } from '../constants';
-import { Instagram, Facebook, Youtube, Phone, Send, Info } from 'lucide-react';
-import { FormState } from '../types';
+import ReactDatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.min.css';
+import { Send } from 'lucide-react';
+
+interface FormState {
+  type: string;
+}
 
 interface ContactFormProps {
   initialState?: FormState;
@@ -12,12 +14,18 @@ interface ContactFormProps {
 const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
   const [focused, setFocused] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
+  const [formValues, setFormValues] = React.useState({
+    name: '',
+    phone: '',
+    email: '',
+    service: '',
+    details: ''
+  });
   
-  const [formType, setFormType] = React.useState<FormState>(initialState || { type: 'general' });
+  const [formType] = React.useState<FormState>(initialState || { type: 'general' });
 
   useEffect(() => {
     if (initialState) {
-      setFormType(initialState);
       setSubmitted(false);
     }
   }, [initialState]);
@@ -25,144 +33,181 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 8000);
+    setTimeout(() => setSubmitted(false), 5000);
   };
 
-  const InputField = ({ label, id, type = "text", value = "", readOnly = false, placeholder = " " }: { label: string, id: string, type?: string, value?: string, readOnly?: boolean, placeholder?: string }) => (
-    <div className="relative mb-6 group">
-      <input
-        type={type}
-        id={id}
-        required
-        defaultValue={value}
-        readOnly={readOnly}
-        onFocus={() => setFocused(id)}
-        onBlur={() => setFocused(null)}
-        placeholder={placeholder}
-        className={`w-full px-5 pt-6 pb-2 rounded-2xl bg-neutral-50 border transition-all duration-300 outline-none peer
-          ${readOnly ? 'bg-neutral-100 cursor-not-allowed text-neutral-500' : ''}
-          ${focused === id ? 'border-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.1)]' : 'border-neutral-200'}
-        `}
-      />
-      <label
-        htmlFor={id}
-        className={`absolute left-5 transition-all duration-300 pointer-events-none text-neutral-400
-          ${focused === id || placeholder !== " " ? '-translate-y-3 text-[10px] text-blue-500 font-bold' : 'top-4 text-sm'}
-          peer-focus:-translate-y-3 peer-focus:text-[10px] peer-focus:text-blue-500
-          peer-[:not(:placeholder-shown)]:-translate-y-3 peer-[:not(:placeholder-shown)]:text-[10px] peer-[:not(:placeholder-shown)]:text-blue-500
-        `}
-      >
-        {label}
-      </label>
-    </div>
-  );
-
-  const getHeader = () => {
-    if (formType.type === 'builder') return "Request Builder Quote";
-    if (formType.type === 'sitewalk') return "Schedule a Site Walk";
-    if (formType.type === 'service') return `Schedule ${formType.serviceName}`;
-    return "Let's solve it.";
+  const handleInputChange = (field: string, value: string) => {
+    setFormValues(prev => ({ ...prev, [field]: value }));
   };
+
+  const InputField = ({ label, id, type = "text" }: { label: string; id: string; type?: string }) => {
+    const hasValue = formValues[id as keyof typeof formValues];
+    const isActive = focused === id || hasValue;
+    
+    return (
+      <div className="relative">
+        <input
+          type={type}
+          id={id}
+          required
+          value={formValues[id as keyof typeof formValues]}
+          onChange={(e) => handleInputChange(id, e.target.value)}
+          onFocus={() => setFocused(id)}
+          onBlur={() => setFocused(null)}
+          className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200
+            ${focused === id ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
+          `}
+        />
+        <label
+          htmlFor={id}
+          className={`absolute left-4 px-1 bg-white text-sm transition-all duration-200 pointer-events-none
+            ${isActive ? 'top-0 -translate-y-1/2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}
+            ${focused === id ? 'text-neutral-900' : 'text-neutral-500'}
+          `}
+        >
+          {label}
+        </label>
+      </div>
+    );
+  };
+
+  const now = new Date();
+  const [preferredDate, setPreferredDate] = React.useState<Date | null>(now);
+  const [preferredTime, setPreferredTime] = React.useState<string>(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`);
 
   return (
-    <section id="contact" className="py-32 px-6 bg-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16">
-        <MotionWrapper direction="right">
-          <h2 className="text-4xl md:text-6xl font-bold mb-8 tracking-tighter transition-all duration-500">
-            {getHeader()}
-          </h2>
-          <p className="text-xl text-neutral-500 mb-12 font-light">
-            {formType.type.includes('builder') 
-              ? "Expert project management for new construction and commercial infrastructure."
-              : "San Antonio's most trusted engineering-led plumbing team. Use the form to the right or reach us directly."}
-          </p>
-          
-          <div className="space-y-12">
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[0.3em] text-neutral-400 font-bold mb-4">Direct Line</h4>
-              <a href={`tel:${PHONE_NUMBER}`} className="text-4xl font-bold hover:text-blue-600 transition-colors flex items-center gap-4">
-                <Phone className="w-8 h-8 text-blue-500" /> {PHONE_NUMBER}
-              </a>
+    <div className="w-full min-h-screen bg-white flex items-center justify-center p-4 sm:p-6">
+      <div className="w-full max-w-2xl">
+        {submitted ? (
+          <div className="text-center py-12">
+            <div className="w-20 h-20 bg-neutral-900 text-white rounded-full flex items-center justify-center mx-auto mb-6">
+              <Send className="w-9 h-9" />
             </div>
-
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[0.3em] text-neutral-400 font-bold mb-4">Social Ecosystem</h4>
-              <div className="flex gap-4">
-                {[
-                  { icon: <Instagram className="w-5 h-5" />, href: SOCIAL_LINKS.instagram },
-                  { icon: <Facebook className="w-5 h-5" />, href: SOCIAL_LINKS.facebook },
-                  { icon: <Youtube className="w-5 h-5" />, href: SOCIAL_LINKS.youtube }
-                ].map((s, idx) => (
-                  <a key={idx} href={s.href} target="_blank" className="w-14 h-14 rounded-full bg-neutral-50 flex items-center justify-center hover:bg-black hover:text-white transition-all active:scale-90">
-                    {s.icon}
-                  </a>
-                ))}
-              </div>
-            </div>
+            <h3 className="text-3xl font-semibold text-neutral-900 mb-3">Request Received</h3>
+            <p className="text-lg text-neutral-600">A service coordinator will contact you within 15 minutes.</p>
           </div>
-        </MotionWrapper>
+        ) : (
+          <div className="space-y-8">
+            <div className="text-center sm:text-left">
+              <h2 className="text-4xl sm:text-5xl font-semibold text-neutral-900 tracking-tight mb-3">Service Request</h2>
+              <p className="text-lg text-neutral-600">Fill out the form below and we'll be in touch soon.</p>
+            </div>
 
-        <MotionWrapper direction="left">
-          <div className="bg-white border border-neutral-100 p-8 md:p-12 rounded-[3rem] shadow-2xl relative overflow-hidden">
-            {submitted ? (
-              <div className="py-24 text-center">
-                <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce">
-                  <Send className="w-8 h-8" />
-                </div>
-                <h3 className="text-2xl font-bold mb-2">Request Transmitted</h3>
-                <p className="text-neutral-500">A service coordinator will call you within 15 minutes.</p>
+            <div className="space-y-6">
+              {/* Full Name & Phone */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <InputField label="Full Name" id="name" type="text" />
+                <InputField label="Phone Number" id="phone" type="tel" />
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} key={formType.serviceName || 'form'}>
-                {formType.type === 'service' && (
-                  <div className="flex gap-4 mb-8 p-4 bg-blue-50 rounded-2xl border border-blue-100">
-                    <Info className="w-5 h-5 text-blue-600 shrink-0" />
-                    <div>
-                      <p className="text-xs font-bold text-blue-900 uppercase tracking-widest mb-1">Service Selection</p>
-                      <p className="text-sm text-blue-700">{formType.serviceName} — Starting at {formType.price}</p>
-                    </div>
-                  </div>
-                )}
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                  <InputField label={formType.type.includes('builder') ? "Company Name" : "Full Name"} id="name" />
-                  <InputField label="Phone Number" id="phone" type="tel" />
+              {/* Email */}
+              <InputField label="Email Address" id="email" type="email" />
+
+              {/* Service Type */}
+              <div className="relative">
+                <select
+                  id="service"
+                  required
+                  value={formValues.service}
+                  onChange={(e) => handleInputChange('service', e.target.value)}
+                  onFocus={() => setFocused('service')}
+                  onBlur={() => setFocused(null)}
+                  className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200 appearance-none cursor-pointer
+                    ${focused === 'service' ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
+                  `}
+                >
+                  <option value="" disabled hidden />
+                  <option value="general">General Plumbing</option>
+                  <option value="emergency">Emergency Service</option>
+                  <option value="inspection">Inspection</option>
+                  <option value="remodel">Remodel</option>
+                  <option value="maintenance">Maintenance</option>
+                </select>
+                <label
+                  htmlFor="service"
+                  className={`absolute left-4 px-1 bg-white text-sm transition-all duration-200 pointer-events-none
+                    ${focused === 'service' || formValues.service ? 'top-0 -translate-y-1/2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}
+                    ${focused === 'service' ? 'text-neutral-900' : 'text-neutral-500'}
+                  `}
+                >
+                  Service Type
+                </label>
+              </div>
+
+              {/* Date & Time */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                <div className="relative">
+                  <ReactDatePicker
+                    selected={preferredDate}
+                    onChange={(date: Date | null) => setPreferredDate(date)}
+                    className="w-full px-4 py-3 text-base bg-white border border-neutral-300 hover:border-neutral-400 focus:border-neutral-900 focus:shadow-sm rounded-lg outline-none transition-all duration-200"
+                    dateFormat="MMM d, yyyy"
+                    placeholderText=" "
+                  />
+                  <label className="absolute left-4 top-0 -translate-y-1/2 px-1 bg-white text-xs text-neutral-600 pointer-events-none">
+                    Preferred Date
+                  </label>
                 </div>
 
-                <InputField label="Email Address" id="email" type="email" />
-                
-                {formType.type === 'builder' ? (
-                   <>
-                     <InputField label="Project Address" id="address" />
-                     <InputField label="Project Type" id="project_type" value="Underground Plumbing" readOnly />
-                   </>
-                ) : formType.type === 'sitewalk' ? (
-                  <>
-                     <InputField label="Site Address" id="address" />
-                     <InputField label="Request Type" id="project_type" value="Rough-In Site Walk" readOnly />
-                  </>
-                ) : (
-                   <InputField label="Service Type" id="project" value={formType.serviceName || "General Plumbing Service"} readOnly />
-                )}
-
-                <div className="relative mb-8">
-                  <textarea 
-                    placeholder=" "
+                <div className="relative">
+                  <input
+                    type="time"
+                    id="preferred_time"
                     required
-                    className="w-full h-32 px-5 py-5 rounded-2xl bg-neutral-50 border border-neutral-200 outline-none focus:border-blue-500 transition-all peer"
-                  ></textarea>
-                  <label className="absolute left-5 top-4 text-sm text-neutral-400 transition-all peer-focus:-translate-y-3 peer-focus:text-[10px] peer-focus:text-blue-500 peer-focus:font-bold">Project Details & Location</label>
+                    value={preferredTime}
+                    onChange={(e) => setPreferredTime(e.target.value)}
+                    onFocus={() => setFocused('time')}
+                    onBlur={() => setFocused(null)}
+                    className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200
+                      ${focused === 'time' ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
+                    `}
+                  />
+                  <label
+                    htmlFor="preferred_time"
+                    className="absolute left-4 top-0 -translate-y-1/2 px-1 bg-white text-xs text-neutral-600 pointer-events-none"
+                  >
+                    Preferred Time
+                  </label>
                 </div>
+              </div>
 
-                <button className="w-full py-5 bg-black text-white rounded-2xl font-bold hover:bg-neutral-800 transition-all active:scale-95 shadow-xl">
-                  {formType.type === 'builder' ? "Request Builder Quote" : "Confirm Schedule Request"}
-                </button>
-              </form>
-            )}
+              {/* Project Details */}
+              <div className="relative">
+                <textarea
+                  id="details"
+                  required
+                  value={formValues.details}
+                  onChange={(e) => handleInputChange('details', e.target.value)}
+                  onFocus={() => setFocused('details')}
+                  onBlur={() => setFocused(null)}
+                  rows={4}
+                  className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200 resize-none
+                    ${focused === 'details' ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
+                  `}
+                />
+                <label
+                  htmlFor="details"
+                  className={`absolute left-4 px-1 bg-white text-sm transition-all duration-200 pointer-events-none
+                    ${focused === 'details' || formValues.details ? 'top-0 -translate-y-1/2 text-xs' : 'top-3 text-base'}
+                    ${focused === 'details' ? 'text-neutral-900' : 'text-neutral-500'}
+                  `}
+                >
+                  Project Details & Location
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                onClick={handleSubmit}
+                className="w-full py-3 sm:py-4 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded-lg transition-all duration-200 active:scale-[0.98] mt-4"
+              >
+                Request Service
+              </button>
+            </div>
           </div>
-        </MotionWrapper>
+        )}
       </div>
-    </section>
+    </div>
   );
 };
 
