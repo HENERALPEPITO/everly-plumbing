@@ -10,7 +10,7 @@ const Reviews: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <MotionWrapper className="text-center mb-24">
           <span className="text-blue-600 font-bold uppercase tracking-widest text-xs mb-4 block">Verified Reputation</span>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Real Reviews from San Antonio</h2>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Dont just take our word for it here’s what our customers have to say</h2>
           <div className="flex justify-center gap-1 mb-2">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />

@@ -267,13 +267,20 @@ export const ORG_CHART_DATA = {
 };
 
 export const CONSTRUCTION_SERVICES = {
-  underground: {
-    title: "Underground Plumbing",
-    content: "Foundation-level expertise for residential and commercial builds. We specialize in precision grading and heavy-duty infrastructure."
+  dependable: {
+    title: "Dependable",
+    content: "When deadlines matter, you need a plumbing partner who shows up, follows through, and communicates clearly. We keep your projects moving without delays, giving you peace of mind on the job site.",
+    icon: "Clock"
   },
-  roughIn: {
-    title: "Rough-In Plumbing",
-    content: "Exact placement of vents, stacks, and supply lines behind the walls, following strict architectural standards."
+  affordable: {
+    title: "Affordable",
+    content: "We offer competitive pricing without cutting corners. That means more room in your budget for other trades—while still delivering top-tier plumbing quality workmanship.",
+    icon: "DollarSign"
+  },
+  knowledgeable: {
+    title: "Knowledgeable",
+    content: "Our experience with new construction plumbing ensures installations are done right the first time. We stay current with codes, standards, and efficient solutions, reducing rework and warranty claims.",
+    icon: "BookOpen"
   }
 };
 

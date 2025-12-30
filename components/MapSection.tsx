@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { MotionWrapper } from './MotionWrapper';
 import { MAP_LINK } from '../constants';
@@ -7,25 +6,14 @@ import { MapPin, Navigation, ExternalLink } from 'lucide-react';
 const MapSection: React.FC = () => {
   return (
     <section className="py-24 px-6 bg-white">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-16 items-center">
-        <MotionWrapper className="flex-1" direction="right">
+      <div className="max-w-7xl mx-auto">
+        <MotionWrapper className="text-center">
           <span className="text-blue-600 font-bold uppercase tracking-widest text-xs mb-4 block">Strategic Location</span>
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Serving San Antonio & Surrounding Areas</h2>
-          <p className="text-xl text-neutral-600 mb-10 leading-relaxed font-light">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 tracking-tight">Serving San Antonio and Austin and everything in between</h2>
+          <p className="text-xl text-neutral-600 mb-10 leading-relaxed font-light max-w-3xl mx-auto">
             Our specialized fleet is dispatched from our central hub, ensuring rapid arrival across Bexar County. Experience the premium standard of Everly Plumbing at your doorstep.
           </p>
-          <div className="space-y-6 mb-12">
-            <div className="flex items-center gap-5">
-              <div className="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-600 shadow-sm">
-                <MapPin className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-lg text-neutral-900">San Antonio Headquarters</p>
-                <p className="text-neutral-500">29.5295262, -98.3953383</p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4">
+          {/* <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href={MAP_LINK}
               target="_blank"
@@ -42,21 +30,7 @@ const MapSection: React.FC = () => {
             >
               View on Google Maps <ExternalLink className="w-4 h-4 ml-3" />
             </a>
-          </div>
-        </MotionWrapper>
-
-        <MotionWrapper direction="left" className="flex-1 w-full">
-          <div className="relative group rounded-[3rem] overflow-hidden shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] h-[550px] border border-neutral-100">
-            {/* Updated Embed using the Place ID found in the user's link if possible, or coordinates */}
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3472.186847051187!2d-98.397527!3d29.5295262!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c37825c56557895%3A0x9afa295edbf77ef5!2sEverly%20Plumbing!5e0!3m2!1sen!2sus!4v1734000000000!5m2!1sen!2sus"
-              className="w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-1000 border-none"
-              allowFullScreen={true}
-              loading="lazy"
-              title="Everly Plumbing Location"
-            ></iframe>
-            <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-black/5 rounded-[3rem]"></div>
-          </div>
+          </div> */}
         </MotionWrapper>
       </div>
     </section>

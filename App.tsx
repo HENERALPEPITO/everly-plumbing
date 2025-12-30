@@ -76,7 +76,7 @@ const App: React.FC = () => {
               </section>
 
               {/* <ServicesOverview onDetailClick={handleOpenDetail} /> */}
-              <Pricing onScheduleClick={handleScrollToForm} />
+              {/* <Pricing onScheduleClick={handleScrollToForm} /> */}
               <Financing />
 
               <ConstructionServices 
@@ -85,7 +85,7 @@ const App: React.FC = () => {
               />
 
               <ServiceStages onDetailClick={handleOpenDetail} />
-              <OrgChart />
+              {/* <OrgChart /> */}
               <Reviews />
               <MapSection />
             </main>

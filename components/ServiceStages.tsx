@@ -1,63 +1,63 @@
+// ServiceStages.tsx - Replaced with 3-tile design
 
 import React from 'react';
 import { MotionWrapper } from './MotionWrapper';
-import { SERVICE_DETAILS } from '../constants';
-import { ArrowRight } from 'lucide-react';
+import { Clock, DollarSign, BookOpen } from 'lucide-react';
 
 interface ServiceStagesProps {
   onDetailClick: (serviceName: string) => void;
 }
 
 const ServiceStages: React.FC<ServiceStagesProps> = ({ onDetailClick }) => {
-  const stages = Object.values(SERVICE_DETAILS);
+  const valueProps = [
+    {
+      title: "Dependable",
+      content: "When you call, we answer—and we show up on time. Whether it's an emergency or a planned install, you can count on us to be there when it matters most.",
+      icon: Clock,
+      color: "bg-blue-50",
+      textColor: "text-blue-600"
+    },
+    {
+      title: "Affordable",
+      content: "We believe quality plumbing shouldn't come with a luxury price tag. We don't even charge a service fee for an onsite diagnosis no matter when you need us. Our honest pricing means no surprises and great value for your money.",
+      icon: DollarSign,
+      color: "bg-green-50",
+      textColor: "text-green-600"
+    },
+    {
+      title: "Knowledgeable",
+      content: "From tricky leaks to complete replacements, we bring years of know-how to every job. We explain your options clearly and recommend the right fix—not just the most expensive one.",
+      icon: BookOpen,
+      color: "bg-purple-50",
+      textColor: "text-purple-600"
+    }
+  ];
 
   return (
-    <section className="py-24 px-6 bg-white overflow-hidden">
-      <div className="max-w-[1600px] mx-auto">
-        <MotionWrapper className="mb-20 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Service Life-Cycle</h2>
-          <p className="text-neutral-500 max-w-2xl mx-auto">
-            From groundbreaking infrastructure to the final fixture installation, 
-            Everly Plumbing defines every stage with engineering precision.
+    <section className="py-32 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <MotionWrapper className="text-center mb-24">
+          <span className="text-blue-600 font-bold uppercase tracking-widest text-xs mb-4 block">Residential Service</span>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">Why Homeowners Choose Everly</h2>
+          <p className="text-neutral-500 text-lg max-w-2xl mx-auto">
+            Three simple promises that make your plumbing experience stress-free and reliable.
           </p>
         </MotionWrapper>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {stages.map((stage, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {valueProps.map((value, index) => (
             <MotionWrapper 
-              key={stage.title} 
-              delay={idx * 100} 
-              direction="up" 
-              className="h-full"
+              key={value.title}
+              delay={index * 100}
+              className="p-12 bg-neutral-50 rounded-[3rem] border border-neutral-100 shadow-sm hover:shadow-2xl transition-all duration-700 h-full flex flex-col group"
             >
-              <div 
-                onClick={() => onDetailClick(stage.title)}
-                className="group relative h-[450px] md:h-[550px] rounded-[2.5rem] overflow-hidden bg-neutral-100 cursor-pointer shadow-sm hover:shadow-2xl transition-all duration-700"
-              >
-                {/* Background Image with Zoom Animation */}
-                <div 
-                  className="absolute inset-0 w-full h-full bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-110"
-                  style={{ backgroundImage: `url('${stage.imageUrl}')` }}
-                />
-                
-                {/* Overlay Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent transition-opacity duration-700 group-hover:opacity-90" />
-                
-                {/* Content Overlay */}
-                <div className="absolute inset-0 p-10 flex flex-col justify-end transform transition-transform duration-500 group-hover:-translate-y-2">
-                  <h3 className="text-2xl font-bold text-white mb-4 tracking-tighter uppercase leading-tight">
-                    {stage.title}
-                  </h3>
-                  
-                  <div className="flex items-center text-xs font-bold uppercase tracking-[0.2em] text-blue-400 group-hover:text-white transition-colors">
-                    <span className="relative">
-                      {stage.description}
-                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full" />
-                    </span>
-                    <ArrowRight className="w-4 h-4 ml-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all" />
-                  </div>
-                </div>
+              <div className={`w-16 h-16 ${value.color} rounded-3xl flex items-center justify-center ${value.textColor} mb-8 group-hover:scale-110 transition-transform duration-300`}>
+                <value.icon className="w-8 h-8" />
               </div>
+              <h3 className="text-3xl font-bold mb-6">{value.title}</h3>
+              <p className="text-lg text-neutral-600 leading-relaxed">
+                {value.content}
+              </p>
             </MotionWrapper>
           ))}
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactDatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Send } from 'lucide-react';
 
 interface FormState {

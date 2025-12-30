@@ -1,8 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PHONE_NUMBER, PRICING_LIST, SERVICE_DETAILS } from '../constants';
-import { Menu, X, Phone } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import ContactForm from './ContactForm';
 import NewHomeConstructionMegaMenu from './NewHomeConstructionMegaMenu';
 
@@ -16,7 +15,7 @@ interface NavbarProps {
 
 const NAV_ITEMS = [
   { label: 'HOME', href: '/' },
-  { label: 'RESIDENTIAL', href: '/residential' },
+  { label: 'RESIDENTIAL SERVICE', href: '/residential' },
   { label: 'NEW HOME CONSTRUCTION', href: '/new-home-construction' },
   { label: 'FLEXIBLE FINANCING', href: '/flexible-financing' },
   { label: 'CONTACT US', href: '/contact-us' },
@@ -60,25 +59,30 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
   return (
     <>
       <header className={`fixed top-0 left-0 w-full z-50 bg-white border-b border-neutral-100 ${isScrolled ? 'shadow-sm' : ''}`}>
-        <div className="max-w-[1600px] mx-auto px-6 md:px-10 h-16 flex items-center">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-10 h-20 md:h-24 flex items-center justify-between gap-8">
           <div className="flex-none">
             <Link to="/" className="inline-flex items-center" aria-label="Everly Plumbing home">
-              <img src="/everlyplumbing_logo.png" alt="Everly Plumbing" className="h-20 md:h-50 object-contain" />
+              {/* Increased logo size */}
+              <img 
+                src="/everlyplumbing_logo.png" 
+                alt="Everly Plumbing" 
+                className="h-16 md:h-24 lg:h-28 object-contain transition-all duration-200" 
+              />
             </Link>
           </div>
 
           <nav className="hidden lg:flex flex-1 justify-center">
-            <ul className="flex items-center gap-10">
+            <ul className="flex items-center gap-8">
               {NAV_ITEMS.map((item) => {
-                // For RESIDENTIAL and NEW HOME, use hover to show modal
-                if (item.label === 'RESIDENTIAL') {
+                // For RESIDENTIAL SERVICE and NEW HOME, use hover to show modal
+                if (item.label === 'RESIDENTIAL SERVICE') {
                   return (
                     <li 
                       key={item.label}
                       onMouseEnter={() => handleNavItemHoverEnter('residential')}
                       onMouseLeave={handleNavItemHoverLeave}
                     >
-                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black whitespace-nowrap">
                         {item.label}
                         <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
                       </Link>
@@ -93,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
                       onMouseEnter={() => handleNavItemHoverEnter('construction')}
                       onMouseLeave={handleNavItemHoverLeave}
                     >
-                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                      <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black whitespace-nowrap">
                         {item.label}
                         <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
                       </Link>
@@ -103,7 +107,7 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
 
                 return (
                   <li key={item.label}>
-                    <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black">
+                    <Link to={item.href} className="group relative text-sm font-medium uppercase tracking-wider text-neutral-800 px-3 py-3 transition-colors hover:text-black whitespace-nowrap">
                       {item.label}
                       <span className="absolute left-1/2 -translate-x-1/2 bottom-2 w-0 h-[2px] bg-black transition-all group-hover:w-8" />
                     </Link>
@@ -113,17 +117,8 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
             </ul>
           </nav>
 
-          <div className="flex items-center gap-4 ml-auto">
-            <a href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`} className="hidden xl:inline-flex items-center gap-2 text-sm text-neutral-700">
-              <Phone className="w-4 h-4" />
-              {PHONE_NUMBER}
-            </a>
-
-            <button onClick={() => setShowContactModal?.(true)} className="hidden lg:inline-flex items-center justify-center px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-wider bg-black text-white hover:opacity-95">
-              Schedule Service
-            </button>
-
-            <button onClick={() => setMobileOpen(true)} className="lg:hidden p-2 text-neutral-800" aria-label="Open menu">
+          <div className="flex items-center flex-none lg:hidden">
+            <button onClick={() => setMobileOpen(true)} className="p-2 text-neutral-800" aria-label="Open menu">
               <Menu className="w-6 h-6" />
             </button>
           </div>
@@ -135,7 +130,8 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between">
             <Link to="/" onClick={() => setMobileOpen(false)} className="inline-flex items-center">
-              <img src="/everlyplumbing_logo.png" alt="Everly Plumbing" className="h-10" />
+              {/* Increased mobile logo size */}
+              <img src="/everlyplumbing_logo.png" alt="Everly Plumbing" className="h-14" />
             </Link>
             <button onClick={() => setMobileOpen(false)} className="p-2 text-neutral-800" aria-label="Close menu"><X className="w-6 h-6" /></button>
           </div>
@@ -144,7 +140,7 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
             <ul className="flex flex-col gap-6">
               {NAV_ITEMS.map((item) => (
                 <li key={item.label}>
-                  {item.label === 'RESIDENTIAL' ? (
+                  {item.label === 'RESIDENTIAL SERVICE' ? (
                     <button onClick={() => { setMobileOpen(false); setHoveredItem('residential'); }} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</button>
                   ) : item.label === 'NEW HOME CONSTRUCTION' ? (
                     <button onClick={() => { setMobileOpen(false); setHoveredItem('construction'); }} className="text-2xl font-bold text-neutral-900 uppercase tracking-tight">{item.label}</button>
@@ -159,7 +155,6 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
           </nav>
 
           <div className="mt-auto">
-            <a href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`} className="block text-lg font-semibold text-neutral-900 mb-6">{PHONE_NUMBER}</a>
             <button onClick={() => { setMobileOpen(false); setShowContactModal?.(true); }} className="w-full block text-center py-4 bg-black text-white rounded-full font-bold">Schedule Service</button>
           </div>
         </div>
@@ -168,7 +163,7 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
       {/* Mega Modal (residential / construction) - Desktop Hover */}
       {hoveredItem && (
         <div 
-          className="hidden lg:block fixed top-16 left-0 right-0 z-40"
+          className="hidden lg:block fixed top-24 left-0 right-0 z-40"
           onMouseEnter={() => {
             if (closeTimeoutRef.current) clearTimeout(closeTimeoutRef.current);
             setHoveredItem(hoveredItem);
@@ -280,6 +275,5 @@ const Navbar: React.FC<NavbarProps> = ({ onScheduleClick, showContactModal = fal
     </>
   );
 };
-    
 
 export default Navbar;
