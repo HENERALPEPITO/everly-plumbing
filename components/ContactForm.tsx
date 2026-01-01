@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Send } from 'lucide-react';
+import { supabase } from '../lib/supabase';
 
 interface FormState {
   type: string;
@@ -11,9 +12,61 @@ interface ContactFormProps {
   initialState?: FormState;
 }
 
+// InputField component moved OUTSIDE to prevent re-creation on every render
+const InputField = ({ 
+  label, 
+  id, 
+  type = "text",
+  value,
+  onChange,
+  onFocus,
+  onBlur,
+  focused
+}: { 
+  label: string; 
+  id: string; 
+  type?: string;
+  value: string;
+  onChange: (value: string) => void;
+  onFocus: () => void;
+  onBlur: () => void;
+  focused: boolean;
+}) => {
+  const hasValue = value;
+  const isActive = focused || hasValue;
+  
+  return (
+    <div className="relative">
+      <input
+        type={type}
+        id={id}
+        required
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200
+          ${focused ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
+        `}
+      />
+      <label
+        htmlFor={id}
+        className={`absolute left-4 px-1 bg-white text-sm transition-all duration-200 pointer-events-none
+          ${isActive ? 'top-0 -translate-y-1/2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}
+          ${focused ? 'text-neutral-900' : 'text-neutral-500'}
+        `}
+      >
+        {label}
+      </label>
+    </div>
+  );
+};
+
 const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
   const [focused, setFocused] = React.useState<string | null>(null);
   const [submitted, setSubmitted] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [error, setError] = React.useState<string | null>(null);
   const [formValues, setFormValues] = React.useState({
     name: '',
     phone: '',
@@ -24,56 +77,64 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
   
   const [formType] = React.useState<FormState>(initialState || { type: 'general' });
 
+  const now = new Date();
+  const [preferredDate, setPreferredDate] = React.useState<Date | null>(now);
+  const [preferredTime, setPreferredTime] = React.useState<string>(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`);
+
   useEffect(() => {
     if (initialState) {
       setSubmitted(false);
     }
   }, [initialState]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setError(null);
+    setIsLoading(true);
+
+    try {
+      // Format date as YYYY-MM-DD
+      const formattedDate = preferredDate
+        ? preferredDate.toISOString().split('T')[0]
+        : null;
+
+      const { error: insertError } = await supabase
+        .from('service_requests')
+        .insert([
+          {
+            full_name: formValues.name,
+            phone: formValues.phone,
+            email: formValues.email,
+            service_type: formValues.service,
+            form_type: formType.type,
+            preferred_date: formattedDate,
+            preferred_time: preferredTime,
+            details: formValues.details,
+          },
+        ]);
+
+      if (insertError) {
+        throw insertError;
+      }
+
+      setSubmitted(true);
+      // Reset form
+      setFormValues({ name: '', phone: '', email: '', service: '', details: '' });
+      setPreferredDate(new Date());
+      setPreferredTime(`${String(new Date().getHours()).padStart(2, '0')}:${String(new Date().getMinutes()).padStart(2, '0')}`);
+      
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to submit form. Please try again.';
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormValues(prev => ({ ...prev, [field]: value }));
   };
-
-  const InputField = ({ label, id, type = "text" }: { label: string; id: string; type?: string }) => {
-    const hasValue = formValues[id as keyof typeof formValues];
-    const isActive = focused === id || hasValue;
-    
-    return (
-      <div className="relative">
-        <input
-          type={type}
-          id={id}
-          required
-          value={formValues[id as keyof typeof formValues]}
-          onChange={(e) => handleInputChange(id, e.target.value)}
-          onFocus={() => setFocused(id)}
-          onBlur={() => setFocused(null)}
-          className={`w-full px-4 py-3 text-base bg-white border rounded-lg outline-none transition-all duration-200
-            ${focused === id ? 'border-neutral-900 shadow-sm' : 'border-neutral-300 hover:border-neutral-400'}
-          `}
-        />
-        <label
-          htmlFor={id}
-          className={`absolute left-4 px-1 bg-white text-sm transition-all duration-200 pointer-events-none
-            ${isActive ? 'top-0 -translate-y-1/2 text-xs' : 'top-1/2 -translate-y-1/2 text-base'}
-            ${focused === id ? 'text-neutral-900' : 'text-neutral-500'}
-          `}
-        >
-          {label}
-        </label>
-      </div>
-    );
-  };
-
-  const now = new Date();
-  const [preferredDate, setPreferredDate] = React.useState<Date | null>(now);
-  const [preferredTime, setPreferredTime] = React.useState<string>(`${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`);
 
   return (
     <div className="w-full min-h-screen bg-white flex items-center justify-center p-4 sm:p-6">
@@ -96,12 +157,39 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
             <div className="space-y-6">
               {/* Full Name & Phone */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                <InputField label="Full Name" id="name" type="text" />
-                <InputField label="Phone Number" id="phone" type="tel" />
+                <InputField 
+                  label="Full Name" 
+                  id="name" 
+                  type="text"
+                  value={formValues.name}
+                  onChange={(value) => handleInputChange('name', value)}
+                  onFocus={() => setFocused('name')}
+                  onBlur={() => setFocused(null)}
+                  focused={focused === 'name'}
+                />
+                <InputField 
+                  label="Phone Number" 
+                  id="phone" 
+                  type="tel"
+                  value={formValues.phone}
+                  onChange={(value) => handleInputChange('phone', value)}
+                  onFocus={() => setFocused('phone')}
+                  onBlur={() => setFocused(null)}
+                  focused={focused === 'phone'}
+                />
               </div>
 
               {/* Email */}
-              <InputField label="Email Address" id="email" type="email" />
+              <InputField 
+                label="Email Address" 
+                id="email" 
+                type="email"
+                value={formValues.email}
+                onChange={(value) => handleInputChange('email', value)}
+                onFocus={() => setFocused('email')}
+                onBlur={() => setFocused(null)}
+                focused={focused === 'email'}
+              />
 
               {/* Service Type */}
               <div className="relative">
@@ -196,12 +284,20 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
                 </label>
               </div>
 
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <p className="text-sm text-red-700">{error}</p>
+                </div>
+              )}
+
               {/* Submit Button */}
               <button
                 onClick={handleSubmit}
-                className="w-full py-3 sm:py-4 bg-neutral-900 hover:bg-neutral-800 text-white font-medium rounded-lg transition-all duration-200 active:scale-[0.98] mt-4"
+                disabled={isLoading}
+                className="w-full py-3 sm:py-4 bg-neutral-900 hover:bg-neutral-800 disabled:bg-neutral-600 disabled:cursor-not-allowed text-white font-medium rounded-lg transition-all duration-200 active:scale-[0.98] mt-4"
               >
-                Request Service
+                {isLoading ? 'Submitting...' : 'Request Service'}
               </button>
             </div>
           </div>
