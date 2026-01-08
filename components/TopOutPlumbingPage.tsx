@@ -13,106 +13,122 @@ const TopOutPlumbingPage: React.FC<TopOutPlumbingPageProps> = ({ onScheduleClick
     'Water supply lines to second-story fixtures',
     'Vent pipes through roof penetrations',
     'Shower valves and tub drops',
-    'Washing machine boxes and hose bibs'
+    'Washing machine boxes and hose bibs',
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-20">
-      {/* Back Button */}
-      <div className="max-w-4xl mx-auto px-6 md:px-10 py-6">
-        <Link to="/new-home-construction" className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-black transition-colors">
+    <div className="min-h-screen bg-white">
+      {/* Top Spacer */}
+      <div className="pt-20" />
+
+      {/* Back Navigation */}
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-6">
+        <Link
+          to="/new-home-construction"
+          className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to New Home Construction
         </Link>
       </div>
 
-      {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 md:px-10 py-12">
-        <h1 className="text-5xl font-bold tracking-tight text-neutral-900 mb-6">
-          Top Out Plumbing — Stage Two Explained
-        </h1>
-        <p className="text-xl text-neutral-600 leading-relaxed">
-          Top-out plumbing (also called "stack out") is the second and final stage of rough-in, where we finish running all supply, drain, and vent piping through the upper framing and out through the roof. This is the phase where everything starts to take shape.
-        </p>
+      {/* Hero Section */}
+      <header className="max-w-6xl mx-auto px-6 md:px-10 pb-16">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-5xl font-bold tracking-tight text-neutral-900 mb-6">
+              Top Out Plumbing
+            </h1>
+            <p className="text-xl text-neutral-600 leading-relaxed mb-6">
+              The second and final rough-in phase where supply, drain, and vent systems are completed through upper framing and roof penetrations — setting your home up for inspection and long-term reliability.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-semibold hover:opacity-90 transition"
+              >
+                <Phone className="w-4 h-4" />
+                {PHONE_NUMBER}
+              </a>
+              <button
+                onClick={onScheduleClick}
+                className="inline-flex items-center px-6 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition"
+              >
+                Schedule Walkthrough
+              </button>
+            </div>
+          </div>
+
+          {/* Hero Visual */}
+          <div className="rounded-xl overflow-hidden shadow-sm">
+            <img
+              src="https://images.unsplash.com/photo-1581578731548-c64695cc6952"
+              alt="Top-out plumbing installation showing vent stacks and supply lines"
+              className="w-full h-96 object-cover"
+            />
+          </div>
+        </div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 md:px-10">
-        {/* Overview */}
-        <section className="py-12 border-t border-b border-neutral-200">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+      {/* Content Sections */}
+      <main className="max-w-6xl mx-auto px-6 md:px-10">
+        {/* Process Overview */}
+        <section className="py-16 border-t border-neutral-200">
+          <div className="grid md:grid-cols-2 gap-12">
             <div>
-              <h2 className="text-3xl font-bold tracking-tight mb-6">What Happens During Top Out</h2>
+              <h2 className="text-3xl font-bold mb-6">What Happens During Top Out</h2>
               <p className="text-neutral-600 leading-relaxed mb-6">
-                Top-out begins once the walls are framed and underground/first-floor plumbing is complete. Our licensed team comes in to finish all upper-level pipe runs. We secure, insulate, and protect all pipes per code — and label every run for easy access later.
+                Once framing is complete and the initial rough-in is approved, our licensed plumbers return to finish all upper-level plumbing. Every pipe is secured, insulated where required, and routed precisely according to plan and code.
               </p>
               <p className="text-neutral-600 leading-relaxed">
-                Shower valves are installed, vent pipes poke through the roof, and your system is pressurized for testing. Done right, it sets the stage for clean drywall, flawless tile work, and long-term reliability.
+                Valves are set, vents extend through the roof, and the system is prepared for pressure testing — ensuring smooth drywall, accurate fixture placement, and future serviceability.
               </p>
             </div>
-            <div className="bg-neutral-100 h-80 rounded-lg flex items-center justify-center">
-              <span className="text-neutral-400">Top-Out Plumbing Visual</span>
+            <div className="bg-neutral-50 rounded-xl p-8">
+              <h3 className="font-semibold text-neutral-900 mb-4">Why This Stage Matters</h3>
+              <ul className="space-y-4 text-neutral-700">
+                <li>• Finalizes all vertical and overhead plumbing runs</li>
+                <li>• Confirms alignment across multiple floors</li>
+                <li>• Locks in locations before walls are closed</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* We Install */}
-        <section className="py-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">✅ We Install</h2>
-          <div className="grid md:grid-cols-2 gap-4">
+        {/* Installations */}
+        <section className="py-16">
+          <h2 className="text-3xl font-bold mb-10">What We Install</h2>
+          <div className="grid sm:grid-cols-2 gap-6">
             {installations.map((item, idx) => (
-              <div key={idx} className="flex gap-4 items-start p-4 rounded-lg bg-neutral-50 hover:bg-neutral-100 transition">
-                <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+              <div
+                key={idx}
+                className="flex gap-4 items-start p-6 bg-neutral-50 rounded-xl border border-neutral-200"
+              >
+                <CheckCircle className="w-5 h-5 text-green-600 mt-1" />
                 <span className="text-neutral-700">{item}</span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Pressure & Inspection */}
-        <section className="py-12 bg-neutral-50 rounded-lg px-8 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">💨 Pressure & Inspection</h2>
-          <p className="text-neutral-700 leading-relaxed mb-6">
-            Once the top-out is complete, we pressure test the system and prep for your inspection. We use air or water pressure to confirm there are no leaks, even under load. This step protects your home and ensures you don't have to revisit closed walls later.
-          </p>
-          <p className="text-lg font-semibold text-neutral-900">
-            You only get one chance to build the skeleton of your home. We make it count.
-          </p>
-        </section>
-
-        {/* Why It's Critical */}
-        <section className="py-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">🛠️ Why It's Critical</h2>
-          <ul className="space-y-4 text-neutral-700">
-            <li className="flex gap-4 items-start p-4 border-l-4 border-black">
-              <span className="text-xl">→</span>
-              <span>Ensures your drains and vents align perfectly across floors</span>
-            </li>
-            <li className="flex gap-4 items-start p-4 border-l-4 border-black">
-              <span className="text-xl">→</span>
-              <span>Prevents fixture misalignment or awkward installs later</span>
-            </li>
-            <li className="flex gap-4 items-start p-4 border-l-4 border-black">
-              <span className="text-xl">→</span>
-              <span>Protects your investment by catching issues before insulation and drywall</span>
-            </li>
-            <li className="flex gap-4 items-start p-4 border-l-4 border-black">
-              <span className="text-xl">→</span>
-              <span>Keeps inspectors happy — and projects moving forward</span>
-            </li>
-          </ul>
-          <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
-            <p className="text-neutral-900 font-semibold">
-              Top-out isn't just "the next step" — it's a major checkpoint for the integrity of your home's plumbing system.
+        {/* Pressure Testing */}
+        <section className="py-16">
+          <div className="bg-neutral-50 rounded-2xl p-10">
+            <h2 className="text-3xl font-bold mb-6">Pressure Testing & Inspection</h2>
+            <p className="text-neutral-700 leading-relaxed mb-6">
+              After top-out completion, the system is pressure-tested using air or water to verify integrity under load. This ensures there are zero leaks before insulation and drywall go in.
+            </p>
+            <p className="font-semibold text-neutral-900">
+              This step protects your investment and keeps inspections moving forward without costly rework.
             </p>
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 text-center border-t border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">Let's Build It Right</h2>
-          <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
-            Have questions about venting, inspection timelines, or fixture prep? We're here to walk your project, review plans, and get your system pressure-tested and signed off without delay.
+        {/* CTA */}
+        <section className="py-20 border-t border-neutral-200 text-center">
+          <h2 className="text-3xl font-bold mb-6">Build It Right the First Time</h2>
+          <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-10">
+            Questions about venting, inspections, or fixture placement? We’ll review your plans, walk the site, and ensure everything is ready for approval.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -120,15 +136,16 @@ const TopOutPlumbingPage: React.FC<TopOutPlumbingPageProps> = ({ onScheduleClick
               className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black text-white rounded-full font-semibold hover:opacity-90 transition"
             >
               <Phone className="w-5 h-5" />
-              {PHONE_NUMBER}
+              Call {PHONE_NUMBER}
             </a>
-            <button onClick={onScheduleClick} className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition">
+            <button
+              onClick={onScheduleClick}
+              className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition"
+            >
               Schedule Top-Out Walkthrough
             </button>
           </div>
-          <p className="text-sm text-neutral-600 mt-6">
-            Precision above the slab.
-          </p>
+          <p className="text-sm text-neutral-500 mt-8">Precision above the slab.</p>
         </section>
       </main>
     </div>

@@ -145,7 +145,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ initialState }) => {
               <Send className="w-9 h-9" />
             </div>
             <h3 className="text-3xl font-semibold text-neutral-900 mb-3">Request Received</h3>
-            <p className="text-lg text-neutral-600">A service coordinator will contact you within 15 minutes.</p>
+            <p className="text-lg text-neutral-600">A service coordinator is reviewing your request and will follow up immediately.</p>
           </div>
         ) : (
           <div className="space-y-8">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Phone, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Phone, CheckCircle, Camera, Shield, Video } from 'lucide-react';
 import { PHONE_NUMBER } from '../constants';
 
 interface CameraInspectionPageProps {
@@ -26,106 +26,213 @@ const CameraInspectionPage: React.FC<CameraInspectionPageProps> = ({ onScheduleC
   const benefits = [
     'Catch small problems before they become major repairs',
     'Confirm proper installation and drainage flow',
-    'Provide video proof for inspections or homeowner records'
+    'Provide video proof for inspections or homeowner records',
+    'Reduce future maintenance costs',
+    'Ensure compliance with building codes',
+    'Peace of mind with documented verification'
+  ];
+
+  const inspectionFeatures = [
+    'Blockages',
+    'Bellies or dips in the line',
+    'Misalignments',
+    'Construction debris',
+    'Damaged pipe sections',
+    'Root intrusions'
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-20">
-      {/* Back Button */}
-      <div className="max-w-4xl mx-auto px-6 md:px-10 py-6">
-        <Link to="/new-home-construction" className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-black transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Back to New Home Construction
-        </Link>
+    <div className="min-h-screen bg-white">
+      {/* Header Section */}
+      <div className="bg-neutral-50 border-b border-neutral-200 pt-20">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-8">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <div className="p-2 bg-black rounded-lg">
+                  <Camera className="w-6 h-6 text-white" />
+                </div>
+                <h1 className="text-4xl font-bold text-neutral-900">
+                  Camera Inspections
+                </h1>
+              </div>
+              <p className="text-neutral-600 max-w-3xl">
+                Professional sewer and drain camera inspections throughout the new home construction process. 
+                Advanced technology for complete system visibility and quality assurance.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <Link 
+                to="/new-home-construction" 
+                className="inline-flex items-center gap-2 text-sm font-medium text-neutral-700 hover:text-black transition-colors"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Back to Services
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 md:px-10 py-12">
-        <h1 className="text-5xl font-bold tracking-tight text-neutral-900 mb-6">
-          🎥 Camera Inspections
-        </h1>
-        <p className="text-xl text-neutral-600 leading-relaxed">
-          At Everly Plumbing, we use state-of-the-art sewer and drain camera inspections at different phases of the new home construction process. From underground rough-in to final fixture connections, camera inspections give us eyes inside your system.
-        </p>
-      </header>
-
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 md:px-10">
-        {/* What Is It */}
-        <section className="py-12 border-t border-b border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">What Is a Camera Inspection?</h2>
-          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
-            A camera inspection involves feeding a high-resolution, waterproof camera into your home's drain or sewer line. As the camera travels through the piping, we see a live video feed on a monitor above ground. This allows our team to spot and document:
-          </p>
-          <div className="grid md:grid-cols-2 gap-4">
-            {['Blockages', 'Bellies or dips in the line', 'Misalignments', 'Construction debris', 'Damaged or poorly connected pipe sections'].map((item, idx) => (
-              <div key={idx} className="flex gap-3 items-start p-3 rounded-lg bg-neutral-50">
-                <span className="text-2xl">🔍</span>
-                <span className="text-neutral-700">{item}</span>
+      <main className="max-w-6xl mx-auto px-6 md:px-10 py-12">
+        <div className="grid lg:grid-cols-3 gap-12">
+          {/* Left Column - Main Content */}
+          <div className="lg:col-span-2">
+            {/* Overview Section */}
+            <section className="mb-12">
+              <h2 className="text-2xl font-bold text-neutral-900 mb-6 pb-3 border-b border-neutral-200">
+                Advanced Inspection Technology
+              </h2>
+              <div className="prose prose-lg text-neutral-600">
+                <p className="mb-6">
+                  At Everly Plumbing, we utilize state-of-the-art sewer and drain camera inspection systems 
+                  throughout critical phases of new home construction. Our high-resolution, waterproof cameras 
+                  provide real-time visibility inside your plumbing system, ensuring quality from underground 
+                  rough-in to final fixture connections.
+                </p>
               </div>
-            ))}
-          </div>
-        </section>
+            </section>
 
-        {/* When We Use */}
-        <section className="py-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">When We Use Camera Inspections</h2>
-          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
-            We don't wait for problems — we actively inspect key plumbing phases with our camera systems, including:
-          </p>
-          <div className="space-y-6">
-            {inspectionPhases.map((item, idx) => (
-              <div key={idx} className="flex gap-4 items-start p-6 bg-neutral-50 rounded-lg border border-neutral-200">
-                <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
-                <div>
-                  <h3 className="font-bold text-lg mb-2">{item.phase}</h3>
-                  <p className="text-neutral-600">{item.description}</p>
+            {/* Inspection Features */}
+            <section className="mb-12">
+              <div className="flex items-center gap-3 mb-8">
+                <Video className="w-6 h-6 text-neutral-700" />
+                <h3 className="text-xl font-bold text-neutral-900">What We Detect</h3>
+              </div>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {inspectionFeatures.map((feature, idx) => (
+                  <div 
+                    key={idx}
+                    className="p-4 bg-neutral-50 rounded-lg border border-neutral-200 hover:border-neutral-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-2 h-2 bg-green-600 rounded-full flex-shrink-0"></div>
+                      <span className="text-neutral-700 font-medium">{feature}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Inspection Phases */}
+            <section className="mb-12">
+              <h3 className="text-2xl font-bold text-neutral-900 mb-8">Critical Inspection Phases</h3>
+              <div className="space-y-6">
+                {inspectionPhases.map((phase, idx) => (
+                  <div 
+                    key={idx}
+                    className="group relative overflow-hidden rounded-xl border border-neutral-200 hover:border-neutral-300 transition-all duration-300"
+                  >
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-black"></div>
+                    <div className="p-6 pl-8">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-10 h-10 bg-neutral-100 rounded-lg flex items-center justify-center">
+                          <span className="text-lg font-bold text-neutral-700">{idx + 1}</span>
+                        </div>
+                        <div>
+                          <h4 className="text-lg font-bold text-neutral-900 mb-2">
+                            {phase.phase}
+                          </h4>
+                          <p className="text-neutral-600 leading-relaxed">
+                            {phase.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </div>
+
+          {/* Right Column - Sidebar */}
+          <div className="lg:col-span-1">
+            {/* Benefits Card */}
+            <div className="sticky top-24">
+              <div className="bg-neutral-50 rounded-xl border border-neutral-200 p-6 mb-6">
+                <div className="flex items-center gap-3 mb-6">
+                  <Shield className="w-6 h-6 text-neutral-700" />
+                  <h3 className="text-xl font-bold text-neutral-900">Key Benefits</h3>
                 </div>
+                <ul className="space-y-4">
+                  {benefits.slice(0, 4).map((benefit, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-neutral-700">{benefit}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
-        </section>
 
-        {/* Why It Matters */}
-        <section className="py-12 bg-neutral-50 rounded-lg px-8 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">🧠 Why It Matters</h2>
-          <p className="text-lg text-neutral-700 leading-relaxed mb-8">
-            Without a camera, plumbers have to guess. But with it, we're working with full visibility:
-          </p>
-          <ul className="space-y-4 text-neutral-700">
-            {benefits.map((benefit, idx) => (
-              <li key={idx} className="flex gap-4 items-start">
-                <span className="text-2xl">✅</span>
-                <span className="text-lg">{benefit}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="text-lg text-neutral-700 leading-relaxed mt-8 pt-8 border-t border-neutral-200">
-            We believe camera inspections aren't just a tool — they're a standard of quality that every new home deserves.
-          </p>
-        </section>
-
-        {/* CTA Section */}
-        <section className="py-16 text-center border-t border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to See Inside?</h2>
-          <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
-            Schedule your build walkthrough or inspection today and we'll make sure what's beneath the surface is just as solid as what's on top.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black text-white rounded-full font-semibold hover:opacity-90 transition"
-            >
-              <Phone className="w-5 h-5" />
-              {PHONE_NUMBER}
-            </a>
-            <button onClick={onScheduleClick} className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition">
-              Schedule Inspection
-            </button>
+              {/* CTA Card */}
+              <div className="bg-black text-white rounded-xl p-6">
+                <h3 className="text-xl font-bold mb-4">Schedule Inspection</h3>
+                <p className="text-neutral-300 mb-6 text-sm">
+                  Professional camera inspections available at every construction phase. 
+                  Contact us to schedule or discuss your project requirements.
+                </p>
+                
+                <div className="space-y-3">
+                  <a
+                    href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
+                    className="flex items-center justify-center gap-3 w-full px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-neutral-100 transition-colors"
+                  >
+                    <Phone className="w-5 h-5" />
+                    {PHONE_NUMBER}
+                  </a>
+                  
+                  <button 
+                    onClick={onScheduleClick}
+                    className="w-full px-6 py-3 border-2 border-white rounded-lg font-semibold hover:bg-white hover:text-black transition-colors"
+                  >
+                    Schedule Online
+                  </button>
+                </div>
+                
+                <p className="text-neutral-400 text-xs mt-6 text-center">
+                  Next available inspection: Within 24-48 hours
+                </p>
+              </div>
+            </div>
           </div>
-          <p className="text-sm text-neutral-600 mt-6">
-            Call us or ask your project manager about including a camera inspection on your next phase.
-          </p>
+        </div>
+
+        {/* Full Width Testimonial/Value Section */}
+        <section className="mt-16 pt-12 border-t border-neutral-200">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 rounded-full mb-6">
+              <CheckCircle className="w-5 h-5 text-green-600" />
+              <span className="text-sm font-medium text-neutral-700">Quality Assurance Standard</span>
+            </div>
+            
+            <h3 className="text-2xl font-bold text-neutral-900 mb-6">
+              Professional Verification for Lasting Quality
+            </h3>
+            
+            <div className="grid md:grid-cols-3 gap-8 mt-10">
+              <div className="p-6">
+                <div className="text-4xl font-bold text-black mb-3">100%</div>
+                <p className="text-neutral-600">Visual verification of all plumbing lines</p>
+              </div>
+              
+              <div className="p-6 border-x border-neutral-200">
+                <div className="text-4xl font-bold text-black mb-3">HD</div>
+                <p className="text-neutral-600">High-definition video documentation provided</p>
+              </div>
+              
+              <div className="p-6">
+                <div className="text-4xl font-bold text-black mb-3">24/7</div>
+                <p className="text-neutral-600">Access to inspection reports and videos</p>
+              </div>
+            </div>
+            
+            <p className="text-neutral-600 mt-12 max-w-2xl mx-auto leading-relaxed">
+              We believe camera inspections aren't just a tool — they're a professional standard 
+              that ensures every new home receives the quality verification it deserves. 
+              Complete documentation for builders, inspectors, and homeowners.
+            </p>
+          </div>
         </section>
       </main>
     </div>

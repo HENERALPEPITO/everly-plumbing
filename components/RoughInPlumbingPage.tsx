@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Phone, CheckCircle } from 'lucide-react';
+import { ArrowLeft, Phone, CheckCircle, Layers, Droplets, ShieldCheck } from 'lucide-react';
 import { PHONE_NUMBER } from '../constants';
 
 interface RoughInPlumbingPageProps {
@@ -11,128 +11,157 @@ const RoughInPlumbingPage: React.FC<RoughInPlumbingPageProps> = ({ onScheduleCli
   const steps = [
     {
       number: 1,
-      title: 'Blueprint Matching',
-      description: 'We start by reviewing your approved floor plan and mechanical drawings. Every wall, every fixture, every pipe has its place — and we make sure it\'s exactly right before we cut a single hole.'
+      title: 'Blueprint Review & Layout',
+      description:
+        'We review approved plans and mark exact pipe routes, fixture locations, and wall penetrations to ensure accuracy before installation begins.'
     },
     {
       number: 2,
-      title: 'Drain & Waste Lines',
-      description: 'We install PVC or ABS pipes for toilets, tubs, showers, sinks, and floor drains. Every pipe is precisely pitched for proper flow and tied into the main stack or sewer line.'
+      title: 'Drain, Waste & Vent (DWV)',
+      description:
+        'PVC or ABS piping is installed for all drains with proper slope and venting to ensure smooth flow and long-term reliability.'
     },
     {
       number: 3,
-      title: 'Venting',
-      description: 'Proper venting is critical for system balance and odor control. We install vertical vent stacks through the framing and roofline to keep air flowing properly throughout your drain system.'
+      title: 'Water Supply Rough-In',
+      description:
+        'PEX or copper water lines are run through framing, secured, pressure-tested, and labeled for efficient final connections.'
     },
     {
       number: 4,
-      title: 'Water Supply Lines',
-      description: 'PEX or copper piping is run through studs and joists, secured and pressure-tested. Hot and cold lines are routed to each fixture location and labeled for later connections.'
+      title: 'Pressure Testing',
+      description:
+        'We perform full system pressure testing to identify leaks or weaknesses before walls are closed.'
     },
     {
       number: 5,
-      title: 'Code Compliance & Inspection',
-      description: 'Before we cover anything, we perform a full pressure test and schedule your city or third-party rough-in inspection. We never move forward until everything passes — clean, secure, up to code.'
+      title: 'Inspection Approval',
+      description:
+        'All work is inspected and verified to meet local plumbing codes before moving to the next construction phase.'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-20">
-      {/* Back Button */}
-      <div className="max-w-4xl mx-auto px-6 md:px-10 py-6">
-        <Link to="/new-home-construction" className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-black transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Back to New Home Construction
-        </Link>
-      </div>
-
-      {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 md:px-10 py-12">
-        <h1 className="text-5xl font-bold tracking-tight text-neutral-900 mb-6">
-          Rough-In Plumbing
-        </h1>
-        <p className="text-xl text-neutral-600 leading-relaxed">
-          Rough-in is the first stage of your home's internal plumbing system — it's where the base of the skeleton of your water supply and drain lines is laid out before concrete is poured and walls, fixtures, or finishes are installed.
-        </p>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 md:px-10">
-        {/* What It Is */}
-        <section className="py-12 border-t border-b border-neutral-200">
-          <p className="text-lg text-neutral-600 leading-relaxed mb-8">
-            At this point, we don't install faucets or sinks — we install what goes under them.
+    <div className="min-h-screen bg-white">
+      {/* Hero */}
+      <section className="relative pt-28 pb-20 bg-neutral-900 text-white">
+        <img
+          src="https://images.unsplash.com/photo-1621905251918-48416bd85791?q=80&w=1600&auto=format&fit=crop"
+          alt="Rough-in plumbing pipes inside framing"
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
+        />
+        <div className="relative max-w-6xl mx-auto px-6 md:px-10">
+          <Link
+            to="/new-home-construction"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-200 hover:text-white mb-8"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to New Home Construction
+          </Link>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-6">Rough-In Plumbing</h1>
+          <p className="text-xl md:text-2xl text-neutral-200 max-w-3xl leading-relaxed">
+            The structural backbone of your plumbing system — installed with precision before walls, drywall, or finishes go up.
           </p>
-          <div className="bg-neutral-50 rounded-lg p-8">
-            <p className="text-neutral-700 leading-relaxed">
-              <strong>Why It Matters:</strong> Rough-in is where 95% of future plumbing issues are avoided. If this phase is done right, everything you build on top of it — drywall, tile, cabinetry — will function without hidden problems. Our team treats rough-in like it's the foundation of your home (because it is). We don't cut corners, and we don't move on until it's perfect.
-            </p>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Process Steps */}
-        <section className="py-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-12">🔧 Our Rough-In Process</h2>
-          <div className="space-y-8">
+      {/* Intro */}
+      <section className="max-w-6xl mx-auto px-6 md:px-10 py-16">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight mb-6">Why Rough-In Matters</h2>
+            <p className="text-neutral-600 leading-relaxed mb-6">
+              Rough-in plumbing determines how your entire system performs long term. Proper alignment, venting, and pressure testing prevent leaks, drainage issues, and costly rework later on.
+            </p>
+            <ul className="space-y-4">
+              <li className="flex gap-3 items-start">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                <span className="text-neutral-700">Accurate pipe placement behind every wall</span>
+              </li>
+              <li className="flex gap-3 items-start">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                <span className="text-neutral-700">System-wide pressure and leak testing</span>
+              </li>
+              <li className="flex gap-3 items-start">
+                <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+                <span className="text-neutral-700">Inspection-ready work the first time</span>
+              </li>
+            </ul>
+          </div>
+          <img
+            src="https://imgs.search.brave.com/xTlIeOTmGfOmmt5Spxea1yGRx1-msEZXsHYiRt0mmJc/rs:fit:500:0:1:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9wbHVt/YmluZy1wcm9mZXNz/aW9uYWwtcGx1bWJl/ci1yZXBhaXItc2Vy/dmljZS00NTc1NzIz/NC5qcGc"
+            alt="PEX plumbing rough-in installation"
+            className="rounded-2xl shadow-lg"
+          />
+        </div>
+      </section>
+
+      {/* Process */}
+      <section className="bg-neutral-50 py-16">
+        <div className="max-w-6xl mx-auto px-6 md:px-10">
+          <h2 className="text-3xl font-bold tracking-tight mb-12">Our Rough-In Process</h2>
+          <div className="space-y-10">
             {steps.map((step) => (
               <div key={step.number} className="flex gap-6 items-start">
-                <div className="flex-shrink-0">
-                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-black text-white font-bold text-lg">
-                    {step.number}
-                  </div>
+                <div className="h-12 w-12 rounded-full bg-black text-white flex items-center justify-center font-bold">
+                  {step.number}
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-neutral-900 mb-2">{step.title}</h3>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
                   <p className="text-neutral-600 leading-relaxed">{step.description}</p>
                 </div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Quality Assurance */}
-        <section className="py-12 bg-neutral-50 rounded-lg px-8 mb-12">
-          <h2 className="text-2xl font-bold tracking-tight mb-6">Quality Standards</h2>
-          <ul className="space-y-4 text-neutral-700">
-            <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Full pressure testing before inspections</span>
-            </li>
-            <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Code compliance verification at every step</span>
-            </li>
-            <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Precise measurements and alignment</span>
-            </li>
-            <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Professional labeling for future trades</span>
-            </li>
-          </ul>
-        </section>
+      {/* Standards */}
+      <section className="max-w-6xl mx-auto px-6 md:px-10 py-16">
+        <h2 className="text-3xl font-bold tracking-tight mb-10">Our Quality Standards</h2>
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="p-8 rounded-2xl border bg-white shadow-sm">
+            <Layers className="w-8 h-8 mb-4" />
+            <h3 className="font-semibold text-xl mb-2">Built to Last</h3>
+            <p className="text-neutral-600">Correct pipe sizing, secure fastening, and clean routing.</p>
+          </div>
+          <div className="p-8 rounded-2xl border bg-white shadow-sm">
+            <Droplets className="w-8 h-8 mb-4" />
+            <h3 className="font-semibold text-xl mb-2">Leak-Free Systems</h3>
+            <p className="text-neutral-600">Full pressure tests ensure reliability before walls close.</p>
+          </div>
+          <div className="p-8 rounded-2xl border bg-white shadow-sm">
+            <ShieldCheck className="w-8 h-8 mb-4" />
+            <h3 className="font-semibold text-xl mb-2">Code-Compliant</h3>
+            <p className="text-neutral-600">All work meets or exceeds local plumbing code requirements.</p>
+          </div>
+        </div>
+      </section>
 
-        {/* CTA Section */}
-        <section className="py-16 text-center border-t border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to Get Started?</h2>
-          <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
-            Schedule a consultation — we'll walk your plans and help you build it right from the beginning.
+      {/* CTA */}
+      <section className="bg-neutral-900 text-white py-20">
+        <div className="max-w-4xl mx-auto px-6 md:px-10 text-center">
+          <h2 className="text-4xl font-bold tracking-tight mb-6">Build It Right From the Start</h2>
+          <p className="text-xl text-neutral-300 mb-10">
+            Schedule a consultation and ensure your rough-in plumbing is done correctly from day one.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-black text-white rounded-full font-semibold hover:opacity-90 transition"
+              className="inline-flex items-center justify-center gap-2 px-10 py-4 bg-white text-black rounded-full font-semibold hover:opacity-90 transition"
             >
               <Phone className="w-5 h-5" />
               {PHONE_NUMBER}
             </a>
-            <button onClick={onScheduleClick} className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition">
+            <button
+              onClick={onScheduleClick}
+              className="inline-flex items-center justify-center px-10 py-4 border border-white rounded-full font-semibold hover:bg-white hover:text-black transition"
+            >
               Schedule Consultation
             </button>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 };

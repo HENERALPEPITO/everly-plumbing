@@ -112,29 +112,35 @@ export const SERVICE_DETAILS: Record<string, ServiceDetail> = {
     category: "Residential"
   },
   [ServiceId.WATER_HEATER_FLUSH]: {
-    title: "Water Heater Flush",
-    description: "Sediment removal for peak performance.",
-    longDescription: "Professional water heater flushing to remove sediment buildup. Improves efficiency and extends unit lifespan.",
-    benefits: ["Peak Efficiency", "Extended Lifespan", "Lower Energy Bills"],
-    imageUrl: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200",
-    category: "Residential"
-  },
+  title: "Water Heater Flush",
+  description: "Sediment removal for peak performance.",
+  longDescription:
+    "Professional water heater flushing to remove sediment buildup. Improves efficiency and extends unit lifespan.",
+  benefits: ["Peak Efficiency", "Extended Lifespan", "Lower Energy Bills"],
+  imageUrl:
+    "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=1200",
+  category: "Residential",
+},
   [ServiceId.TANKLESS_DESCALING]: {
-    title: "Tankless Descaling",
-    description: "Specialized service for high-efficiency units.",
-    longDescription: "Specialized descaling service for tankless water heaters. Removes mineral deposits and maintains peak performance.",
-    benefits: ["Maintains Efficiency", "Prevents Damage", "Extends Warranty Coverage"],
-    imageUrl: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
-    category: "Residential"
-  },
+  title: "Tankless Descaling",
+  description: "Specialized service for high-efficiency units.",
+  longDescription:
+    "Specialized descaling service for tankless water heaters. Removes mineral deposits and maintains peak performance.",
+  benefits: ["Maintains Efficiency", "Prevents Damage", "Extends Warranty Coverage"],
+  imageUrl:
+    "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&q=80&w=1200",
+  category: "Residential",
+},
   [ServiceId.WATER_HEATER_REPLACEMENT]: {
-    title: "Water Heater Replacement",
-    description: "Standard tank installation with warranty.",
-    longDescription: "Professional installation of residential water heater systems. Standard tank replacements with full warranty coverage.",
-    benefits: ["Peak Efficiency", "Thermal Protection", "Full Warranty Coverage"],
-    imageUrl: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
-    category: "Residential"
-  },
+  title: "Water Heater Replacement",
+  description: "Standard tank installation with warranty.",
+  longDescription:
+    "Professional installation of residential water heater systems. Standard tank replacements with full warranty coverage.",
+  benefits: ["Peak Efficiency", "Thermal Protection", "Full Warranty Coverage"],
+  imageUrl:
+    "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&q=80&w=1200",
+  category: "Residential",
+},
   [ServiceId.TANKLESS_WATER_HEATER_REPLACEMENT]: {
     title: "Tankless Water Heater Replacement",
     description: "Elite high-efficiency system upgrade.",
@@ -152,77 +158,16 @@ export const SERVICE_DETAILS: Record<string, ServiceDetail> = {
     category: "Residential"
   },
   [ServiceId.PRV_REPLACEMENT]: {
-    title: "PRV Replacement",
-    description: "Pressure reducing valve for home safety.",
-    longDescription: "Professional pressure reducing valve replacement for home safety. Protects your plumbing from excessive water pressure.",
-    benefits: ["System Protection", "Leak Prevention", "Code Compliant"],
-    imageUrl: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=800",
-    category: "Residential"
-  },
-  // "UNDERGROUNDS": {
-  //   title: "UNDERGROUNDS",
-  //   description: "Learn more",
-  //   longDescription: "Foundation-level plumbing pipes for new construction. Our team specializes in precision grading and heavy-duty infrastructure installation to ensure long-term stability for San Antonio builds.",
-  //   benefits: ["Precision Excavation", "Industrial Grade Materials", "Rigid Code Compliance"],
-  //   imageUrl: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Builder"
-  // },
-  // "ROUGH-IN PLUMBING": {
-  //   title: "ROUGH-IN PLUMBING",
-  //   description: "View process",
-  //   longDescription: "Completing rough-in plumbing work before concrete pours. We ensure every vent, stack, and supply line is perfectly positioned according to architectural plans.",
-  //   benefits: ["Plan Accuracy", "Timed Inspection Ready", "Leak-Free Testing"],
-  //   imageUrl: "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Builder"
-  // },
-  // "CAMERA INSPECTION NEW": {
-  //   title: "CAMERA INSPECTION",
-  //   description: "See how it works",
-  //   longDescription: "High-definition camera inspection of underground drain lines. We identify blockages, pipe collapses, and root intrusions with surgical precision using fiber-optic technology.",
-  //   benefits: ["Zero Guesswork", "Visual Proof", "Cost-Effective Diagnostics"],
-  //   imageUrl: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Residential"
-  // },
-  // "TOP OUT PLUMBING": {
-  //   title: "TOP OUT PLUMBING",
-  //   description: "Explore stage two",
-  //   longDescription: "Licensed technicians completing the top-out stage. This involves running the vertical stacks and venting systems before walls are closed.",
-  //   benefits: ["Vertical Precision", "Proper Venting", "System Pressure Integrity"],
-  //   imageUrl: "https://images.unsplash.com/photo-1581094288338-2314dddb7ecc?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Builder"
-  // },
-  // "GAS LINE INSTALLATION": {
-  //   title: "GAS LINE INSTALLATION",
-  //   description: "Learn more",
-  //   longDescription: "Safe and licensed installation of gas lines for new homes. We handle everything from meter manifold setup to appliance connections.",
-  //   benefits: ["Master Licensed Safety", "Tight Seal Verification", "Permit Management"],
-  //   imageUrl: "https://images.unsplash.com/photo-1621905252507-b354bcadcabc?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Commercial"
-  // },
-  // "WATER HEATER INSTALLATION": {
-  //   title: "WATER HEATER INSTALLATION",
-  //   description: "Compare options",
-  //   longDescription: "Professional installation of residential water heater systems, including tankless upgrades and standard tank replacements.",
-  //   benefits: ["Peak Efficiency", "Thermal Protection", "Full Warranty Coverage"],
-  //   imageUrl: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Residential"
-  // },
-  // "FIXTURE INSTALLATION": {
-  //   title: "FIXTURE INSTALLATION",
-  //   description: "See our process",
-  //   longDescription: "Final stage installation of kitchen and bathroom plumbing fixtures. We provide White Glove service to ensure a flawless aesthetic and functional finish.",
-  //   benefits: ["Premium Aesthetic", "Correct Sealing", "Appliance Calibration"],
-  //   imageUrl: "https://images.unsplash.com/photo-1595814433015-e6f5cd696144?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Residential"
-  // },
-  // "WARRANTY": {
-  //   title: "WARRANTY",
-  //   description: "View coverage",
-  //   longDescription: "Our commitment to excellence extends long after the service. We provide comprehensive warranty support for all residential and commercial projects.",
-  //   benefits: ["Rapid Response", "Guaranteed Workmanship", "Peace of Mind"],
-  //   imageUrl: "https://images.unsplash.com/photo-1620627812624-9b8849646b10?auto=format&fit=crop&q=80&w=1200",
-  //   category: "Residential"
-  // }
+  title: "PRV Replacement",
+  description: "Pressure reducing valve for home safety.",
+  longDescription:
+    "Professional pressure reducing valve replacement for home safety. Protects your plumbing from excessive water pressure.",
+  benefits: ["System Protection", "Leak Prevention", "Code Compliant"],
+  imageUrl:
+    "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=1200",
+  category: "Residential",
+},
+
 };
 
 export const ALL_SERVICES = Object.keys(SERVICE_DETAILS);

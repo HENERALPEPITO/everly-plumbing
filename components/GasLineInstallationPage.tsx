@@ -40,49 +40,66 @@ const GasLineInstallationPage: React.FC<GasLineInstallationPageProps> = ({ onSch
   ];
 
   return (
-    <div className="min-h-screen bg-white pt-20">
-      {/* Back Button */}
-      <div className="max-w-4xl mx-auto px-6 md:px-10 py-6">
-        <Link to="/new-home-construction" className="inline-flex items-center gap-2 text-sm font-semibold text-neutral-700 hover:text-black transition-colors">
+    <div className="min-h-screen bg-white">
+      {/* Top Spacer */}
+      <div className="pt-20" />
+
+      {/* Back Navigation */}
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-6">
+        <Link to="/new-home-construction" className="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition">
           <ArrowLeft className="w-4 h-4" />
           Back to New Home Construction
         </Link>
       </div>
 
-      {/* Header */}
-      <header className="max-w-4xl mx-auto px-6 md:px-10 py-12">
+      {/* Header Section */}
+      <header className="max-w-6xl mx-auto px-6 md:px-10 pb-16">
         <h1 className="text-5xl font-bold tracking-tight text-neutral-900 mb-6">
-          🔥 Gas Line Installation — Built for Safety and Performance
+          Gas Line Installation — Built for Safety and Performance
         </h1>
-        <p className="text-xl text-neutral-600 leading-relaxed">
-          Every home has different gas needs, so we build custom systems to fit your layout and appliance setup. Our installations are built to meet — and often exceed — local code.
+        <p className="text-xl text-neutral-600 leading-relaxed mb-6">
+          Every home has different gas needs, so we build custom systems to fit your layout and appliance setup. Our installations meet — and often exceed — local code.
         </p>
+        <div className="flex flex-wrap gap-4">
+          <a
+            href={`tel:${PHONE_NUMBER.replace(/\D/g, '')}`}
+            className="inline-flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-semibold hover:opacity-90 transition"
+          >
+            <Phone className="w-4 h-4" />
+            {PHONE_NUMBER}
+          </a>
+          <button
+            onClick={onScheduleClick}
+            className="inline-flex items-center px-6 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition"
+          >
+            Schedule Site Visit
+          </button>
+        </div>
       </header>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-6 md:px-10">
+      <main className="max-w-6xl mx-auto px-6 md:px-10">
         {/* What We Install */}
-        <section className="py-12 border-t border-b border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">What We Install</h2>
+        <section className="py-16 border-t border-neutral-200">
+          <h2 className="text-3xl font-bold mb-10">What We Install</h2>
           <p className="text-lg text-neutral-600 leading-relaxed mb-8">
             Common gas line installations we handle:
           </p>
-          <div className="grid md:grid-cols-2 gap-4">
+          <div className="grid sm:grid-cols-2 gap-6">
             {gasApplications.map((app, idx) => (
-              <div key={idx} className="flex gap-4 items-start p-4 rounded-lg bg-neutral-50 hover:bg-neutral-100 transition">
-                <span className="text-2xl flex-shrink-0">🔥</span>
+              <div key={idx} className="flex gap-4 items-start p-6 bg-neutral-50 rounded-xl border border-neutral-200">
                 <span className="text-neutral-700">{app}</span>
               </div>
             ))}
           </div>
           <p className="text-neutral-600 leading-relaxed mt-8">
-            We use black iron or CSST (corrugated stainless steel tubing) depending on the layout and access. Every system is fully pressure-tested before inspection.
+            We use black iron or CSST depending on the layout and access. Every system is fully pressure-tested before inspection.
           </p>
         </section>
 
         {/* Installation Process */}
-        <section className="py-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">⚙️ Our Gas Installation Process</h2>
+        <section className="py-16">
+          <h2 className="text-3xl font-bold mb-8">Our Gas Installation Process</h2>
           <p className="text-lg text-neutral-600 leading-relaxed mb-8">
             Installed once. Checked twice.
           </p>
@@ -104,36 +121,36 @@ const GasLineInstallationPage: React.FC<GasLineInstallationPageProps> = ({ onSch
         </section>
 
         {/* Safety First */}
-        <section className="py-12 bg-neutral-50 rounded-lg px-8 mb-12">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">🛡️ Safety Above All</h2>
+        <section className="py-16 bg-neutral-50 rounded-2xl p-10 mb-16">
+          <h2 className="text-3xl font-bold mb-6">Safety Above All</h2>
           <p className="text-lg text-neutral-700 leading-relaxed mb-6">
-            Gas is efficient and convenient — but only when it's installed properly. We take zero shortcuts when it comes to pressure, joints, ventilation, and testing.
+            Gas is efficient and convenient — only when installed properly. We take zero shortcuts with pressure, joints, ventilation, and testing.
           </p>
           <ul className="space-y-4 text-neutral-700">
             <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Licensed and insured for all gas work</span>
+              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+              Licensed and insured for all gas work
             </li>
             <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Trained in all current gas codes</span>
+              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+              Trained in all current gas codes
             </li>
             <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Full pressure testing and leak detection</span>
+              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+              Full pressure testing and leak detection
             </li>
             <li className="flex gap-4 items-start">
-              <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-              <span>Proper ventilation and safety margins</span>
+              <CheckCircle className="w-5 h-5 text-green-600 mt-0.5" />
+              Proper ventilation and safety margins
             </li>
           </ul>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 text-center border-t border-neutral-200">
-          <h2 className="text-3xl font-bold tracking-tight mb-6">Ready to Install?</h2>
-          <p className="text-xl text-neutral-600 mb-8 max-w-2xl mx-auto">
-            Have a question about sizing, routing, or appliance types? We're happy to walk you through the details and help you plan your system from the ground up.
+        {/* CTA */}
+        <section className="py-20 border-t border-neutral-200 text-center">
+          <h2 className="text-3xl font-bold mb-6">Ready to Install?</h2>
+          <p className="text-xl text-neutral-600 max-w-2xl mx-auto mb-10">
+            Questions about sizing, routing, or appliance types? We’ll walk you through the details and plan your system from the ground up.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
@@ -143,13 +160,14 @@ const GasLineInstallationPage: React.FC<GasLineInstallationPageProps> = ({ onSch
               <Phone className="w-5 h-5" />
               {PHONE_NUMBER}
             </a>
-            <button onClick={onScheduleClick} className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition">
+            <button
+              onClick={onScheduleClick}
+              className="inline-flex items-center justify-center px-8 py-3 border border-black rounded-full font-semibold hover:bg-neutral-50 transition"
+            >
               Schedule Site Visit
             </button>
           </div>
-          <p className="text-sm text-neutral-600 mt-6">
-            Confidence in every connection.
-          </p>
+          <p className="text-sm text-neutral-500 mt-8">Confidence in every connection.</p>
         </section>
       </main>
     </div>
